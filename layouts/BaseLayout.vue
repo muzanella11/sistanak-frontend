@@ -1,16 +1,16 @@
 <template>
-  <v-app
-    id="enMainPage"
-  >
+  <v-app id="enMainPage">
     <navigation-drawer v-if="layoutSettings.drawer"></navigation-drawer>
     <toolbar v-if="layoutSettings.toolbar"></toolbar>
-    <v-content ref="mainContent">
-      <v-container fill-height>
-        <v-layout justify-center align-center>
-          <nuxt />
-        </v-layout>
-      </v-container>
-    </v-content>
+    <main>
+      <v-content ref="mainContent">
+        <v-container fill-height>
+          <v-layout justify-center align-center>
+            <nuxt />
+          </v-layout>
+        </v-container>
+      </v-content>
+    </main>
   </v-app>
 </template>
 
