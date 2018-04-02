@@ -14,5 +14,18 @@ $theme := {
 // Import Vuetify styling
 @require '~vuetify/src/stylus/main.styl'
 
+body
+  font-family: 'Raleway', sans-serif;
+
+.en-loading
+  position relative;
+  &:before
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(41, 37, 37, 0.11);
+    z-index: 11;
+
 .page
   @extend .fade-transition

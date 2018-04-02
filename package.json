@@ -11,10 +11,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/toast": "^3.0.0",
     "nuxt": "^1.0.0",
     "vuetify": "^1.0.0"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "babel-eslint": "^7.2.3",
     "dotenv": "^5.0.1",
     "eslint": "^4.3.0",
@@ -25,8 +27,11 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "moment": "^2.22.0",
+    "store": "^2.0.12",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "vee-validate": "^2.0.6"
+    "vee-validate": "^2.0.6",
+    "vue-moment": "^3.2.0"
   }
 }
