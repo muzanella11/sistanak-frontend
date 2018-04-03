@@ -11,5 +11,10 @@ export default {
     index: '/animal/gender',
     data: '/animal/gender',
     create: '/animal/gender/create'
+  },
+  animalGroup: {
+    index: '/animal/group',
+    data: '/animal/group',
+    create: '/animal/group/create'
   }
 }
