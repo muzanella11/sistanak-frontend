@@ -4,9 +4,9 @@
     :append-icon="see_password && !disabled ? 'visibility' : 'visibility_off'"
     :append-icon-cb="() => {see_password = !see_password}"
     :value="value"
-    :error-messages="vv_errors.collect('password')"
+    :error-messages="vv_errors.collect('Password')"
     v-validate="'required'"
-    data-vv-name="password"
+    data-vv-name="Password"
     :disabled="disabled"
     @input="value => {$emit('input', value)}"/>
 </template>

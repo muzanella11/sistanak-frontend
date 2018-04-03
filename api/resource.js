@@ -14,7 +14,7 @@ function createResource () {
   instance.interceptors.request.use(config => {
     var store = window.$nuxt.$store
     if (store.getters[AUTH.IS_AUTHENTICATED]) {
-      let token = store.state.AUTH[AUTH.TOKEN]
+      let token = store.state.auth.token
       config.headers['Authorization'] = 'Bearer ' + token
     }
     return config

@@ -2,6 +2,7 @@ module.exports = {
   /*
   ** Headers of the page
   */
+  mode: 'spa',
   head: {
     title: 'Sistem Informasi Hewan Ternak',
     meta: [
@@ -11,7 +12,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Raleway' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Raleway' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' }
     ]
   },
@@ -19,6 +20,7 @@ module.exports = {
     '~/plugins/vuetify.js',
     '~/plugins/dialog.js',
     '~/plugins/moment.js',
+    '~/plugins/event-bus.js',
     '~/plugins/vee-validate.js'
   ],
   modules: [

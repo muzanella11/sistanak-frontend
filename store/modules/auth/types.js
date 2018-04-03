@@ -3,6 +3,10 @@ let TAG = `AUTH`
 
 /** ************************ For Mutations ***************************************/
 export const SET_STATE = `${TAG}_SET_STATE`
+export const SIGNIN_STATE = `${TAG}_SIGNIN_STATE`
+export const SIGNOUT_STATE = `${TAG}_SIGNOUT_STATE`
+export const USER = `${TAG}_USER`
+export const ROLES = `${TAG}_ROLES`
 /*******************************************************************************/
 
 /** ************************ For Actions ****************************************/

@@ -38,7 +38,14 @@ export default {
   },
 
   mounted () {
-    // console.info('ini : ', this.layoutSettings)
+    this.setLayout()
+  },
+
+  methods: {
+    setLayout () {
+      this.layoutSettings.drawer = true
+      this.layoutSettings.toolbar = true
+    }
   }
 }
 </script>

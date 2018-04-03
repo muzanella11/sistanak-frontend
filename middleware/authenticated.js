@@ -1,4 +1,5 @@
 import * as AUTH from '~/store/modules/auth/types'
+// import localStorage from 'store'
 
 export const EXCEPT_PAGE = ['auth-Signin', 'pagesNotFound']
 
