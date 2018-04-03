@@ -4,8 +4,8 @@
     <toolbar v-if="layoutSettings.toolbar"></toolbar>
     <main>
       <v-content ref="mainContent">
-        <v-container fill-height>
-          <v-layout justify-center align-center>
+        <v-container>
+          <v-layout>
             <nuxt />
           </v-layout>
         </v-container>
@@ -49,3 +49,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.loader-linear
+  margin: 0;
+</style>
