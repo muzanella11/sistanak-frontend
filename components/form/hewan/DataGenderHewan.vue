@@ -215,8 +215,8 @@ export default {
       this.pruneState()
 
       if (this.checkIsDetail()) {
-        this.entry.name = this.userEntry.fullname
-        this.entry.email = this.userEntry.email
+        this.entry.name = this.entry.name
+        this.entry.email = this.entry.email
       }
     },
 
