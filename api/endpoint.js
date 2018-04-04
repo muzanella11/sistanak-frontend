@@ -16,5 +16,30 @@ export default {
     index: '/animal/group',
     data: '/animal/group',
     create: '/animal/group/create'
+  },
+  animalOwnership: {
+    index: '/animal/ownership',
+    data: '/animal/ownership',
+    create: '/animal/ownership/create'
+  },
+  animalOwnershipDetail: {
+    index: '/animal/ownershipdetail',
+    data: '/animal/ownershipdetail',
+    create: '/animal/ownershipdetail/create'
+  },
+  locationProvince: {
+    index: '/administratif/provinces',
+    data: '/administratif/provinces',
+    create: '/administratif/provinces/create'
+  },
+  locationRegion: {
+    index: '/administratif/regencies',
+    data: '/administratif/regencies',
+    create: '/administratif/regencies/create'
+  },
+  locationVillage: {
+    index: '/administratif/villages',
+    data: '/administratif/villages',
+    create: '/administratif/villages/create'
   }
 }
