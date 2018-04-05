@@ -53,7 +53,7 @@
                     {{ props.item.nik }}
                   </td>
                   <td>
-                    {{ props.item.role }}
+                    {{ props.item.user_role_detail.name }}
                   </td>
                   <td>
                     {{ props.item.assign_task ? 'Ya' : 'Tidak' }}
@@ -112,7 +112,7 @@
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Nama Hewan
+                          Nama
                         </b>
                       </v-flex>
                       <v-flex xs8>
@@ -122,13 +122,59 @@
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Deskripsi
+                          Nik
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.nik }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Role
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.user_role_detail.name }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Telepon
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.phone }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Status Penugasan
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.assign_task ? 'Sedang dalam penugasan' : 'Tidak dalam penugasan' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Alamat
                         </b>
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap style="border: 2px solid #eee;border-radius: 3px;padding: 12px;">
                       <v-flex xs12>
-                        {{ entriesDetail.description }}
+                        {{ entriesDetail.address }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs12>
+                        <v-btn block color="primary" @click="assignTask(entriesDetail)" v-if="entriesDetail.assign_task === 0">Tetapkan Penugasan</v-btn>
+                        <v-btn block color="red" class="white--text" @click="assignTask(entriesDetail)" v-if="entriesDetail.assign_task === 1">Akhiri Penugasan</v-btn>
                       </v-flex>
                     </v-layout>
                   </v-flex>
@@ -321,6 +367,7 @@ export default {
     ...mapActions({
       fetchUser: USER.FETCH_RESOURCE,
       fetchUserDetail: USER.FETCH_DETAIL,
+      updateData: USER.UPDATE_DATA,
       deleteUser: USER.DELETE_DATA
     }),
     fetchResource () {
@@ -348,6 +395,17 @@ export default {
       // this.downloadExcel().then(response => {
       //   fileDownload(response, 'transaction-all-report_' + dateNow + '.xlsx')
       // })
+    },
+    assignTask (data) {
+      this.$dialog({title: data.assign_task === 0 ? 'Tetapkan Penugasan' : 'Akhiri Penugasan', content: data.assign_task === 0 ? 'Anda yakin akan menetapkan penugasan kepada user ini?' : 'Anda yakin akan mengakhiri penugasan kepada user ini?'}, () => {
+        this.updateData({id: data.user_id, data: {assign_task: data.assign_task === 0 ? 1 : 'nol'}}).then(() => {
+          this.$toast.success(data.assign_task === 0 ? 'Berhasil menetapkan penugasan' : 'Berhasil mengakhiri penugasan')
+          this.detailDialog = false
+          this.fetchResource()
+        }, () => {
+          this.$toast.error(data.assign_task === 0 ? 'Gagal menetapkan penugasan' : 'Gagal mengakhiri penugasan')
+        })
+      })
     },
     getDetail (id) {
       this.fetchUserDetail(id).then((response) => {
