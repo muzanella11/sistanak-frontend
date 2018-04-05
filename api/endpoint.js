@@ -2,6 +2,16 @@ export default {
   auth: {
     authorization: '/auth/authorization'
   },
+  user: {
+    index: '/user',
+    data: '/user',
+    create: '/user/create'
+  },
+  role: {
+    index: '/role',
+    data: '/role',
+    create: '/role/create'
+  },
   animal: {
     index: '/animal/data',
     data: '/animal/data',

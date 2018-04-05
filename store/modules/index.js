@@ -5,6 +5,8 @@ import animalGender from './animalgender'
 import animalGroup from './animalgroup'
 import animalOwnership from './animalownership'
 import location from './location'
+import user from './user'
+import role from './role'
 
 export default {
   example,
@@ -13,5 +15,7 @@ export default {
   animalGender,
   animalGroup,
   animalOwnership,
-  location
+  location,
+  user,
+  role
 }

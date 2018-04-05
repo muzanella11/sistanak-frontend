@@ -6,9 +6,13 @@ import animalOwnership from './modules/animalOwnership'
 import locationProvince from './modules/locationProvince'
 import locationRegion from './modules/locationRegion'
 import locationVillage from './modules/locationVillage'
+import user from './modules/user'
+import role from './modules/role'
 
 export default {
   auth,
+  user,
+  role,
   animal,
   animalGender,
   animalGroup,
