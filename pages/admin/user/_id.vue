@@ -1,13 +1,13 @@
 <template>
-  <data-hewan></data-hewan>
+  <data-user></data-user>
 </template>
 
 <script>
-import DataHewan from '~/components/form/hewan/DataHewan'
+import DataUser from '~/components/form/user/DataUser'
 
 export default {
   components: {
-    DataHewan
+    DataUser
   },
 
   data () {

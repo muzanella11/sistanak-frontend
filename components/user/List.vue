@@ -1,12 +1,12 @@
 <template>
   <v-layout row wrap class="l-user">
     <v-layout row class="user-filter">
-      <search-filter ref="campaignSpecialFilter" labelInput="Cari Nama Hewan" :dataDropdowns="dataComponentsDropdowns"></search-filter>
+      <search-filter ref="campaignSpecialFilter" labelInput="Cari Nama User" :dataDropdowns="dataComponentsDropdowns"></search-filter>
     </v-layout>
     <v-container grid-list-lg class="user-content">
       <v-layout row wrap>
         <v-flex xs12 v-show="panelStatus.listCampaignSpecial">
-          <panel-expansion idPanel="listCampaignSpecial" title="Detail Hewan" cardColor="#ffffff" headerCardColor="white">
+          <panel-expansion idPanel="listCampaignSpecial" title="Detail User" cardColor="#ffffff" headerCardColor="white">
             <div slot="header">
               <v-tooltip top v-if="filters.q">
                 <v-btn icon slot="activator" @click="clearFilter">
@@ -62,7 +62,7 @@
                     {{ formatDate(props.item.date_created, 'HH:mm | DD MMM YYYY') }}
                   </td>
                   <td>
-                    <more-action-table :setting="itemsAction" @clickAction="getActionItems($event, props.item.animal_id)"></more-action-table>
+                    <more-action-table :setting="itemsAction" @clickAction="getActionItems($event, props.item.user_id)"></more-action-table>
                   </td>
                 </template>
               </v-data-table>
@@ -85,7 +85,7 @@
           <v-btn icon @click.native="detailDialog = false" dark>
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Detil Hewan</v-toolbar-title>
+          <v-toolbar-title>Detil User</v-toolbar-title>
         </v-toolbar>
         <v-card-text v-if="detailDialog">
           <v-container grid-list-md text-xs-center>
@@ -279,7 +279,7 @@ export default {
     filters () {
       let data = {
         q: this.masterFilters.keyword ? this.masterFilters.keyword : null,
-        user: null,
+        role: null,
         sort: 'newest',
         limit: this.pagination.rowsPerPage,
         offset: (this.pagination.page - 1) * this.pagination.rowsPerPage
@@ -358,9 +358,9 @@ export default {
     },
     getActionItems (action, id) {
       if (action === 'edit') {
-        this.$nuxt.$router.push('/admin/hewan/' + id)
+        this.$nuxt.$router.push('/admin/user/' + id)
       } else if (action === 'delete') {
-        this.$dialog({title: 'Hapus Hewan', content: 'Anda yakin akan menghapus hewan ini?'}, () => {
+        this.$dialog({title: 'Hapus User', content: 'Anda yakin akan menghapus user ini?'}, () => {
           this.deleteUser(id).then(() => {
             this.fetchResource()
             this.$toast.success('Berhasil menghapus data')

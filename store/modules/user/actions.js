@@ -28,7 +28,13 @@ export default {
     return new Promise((resolve, reject) => {
       api.user.detail(id).then((response) => {
         commit(USER.SET_STATE, { accessor: 'entry.name', value: response.data.data[0].name })
-        commit(USER.SET_STATE, { accessor: 'entry.description', value: response.data.data[0].description })
+        commit(USER.SET_STATE, { accessor: 'entry.nik', value: response.data.data[0].nik })
+        commit(USER.SET_STATE, { accessor: 'entry.username', value: response.data.data[0].username })
+        commit(USER.SET_STATE, { accessor: 'entry.email', value: response.data.data[0].email })
+        // commit(USER.SET_STATE, { accessor: 'entry.password', value: response.data.data[0].password })
+        commit(USER.SET_STATE, { accessor: 'entry.phone', value: response.data.data[0].phone })
+        commit(USER.SET_STATE, { accessor: 'entry.user_role', value: response.data.data[0].user_role })
+        commit(USER.SET_STATE, { accessor: 'entry.address', value: response.data.data[0].address })
         resolve(response)
       }, (error) => {
         reject(error)

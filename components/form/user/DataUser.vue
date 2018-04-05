@@ -3,7 +3,7 @@
     <v-flex offset-xs2 xs8 class="pt-4 pb-4" :class="{'en-loading': isLoading}">
       <v-card flat class="user__card">
         <header class="user__card-header">
-          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data Hewan
+          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data User
         </header>
         <v-progress-linear v-if="isLoading" class="loader-linear" color="red" :indeterminate="true"></v-progress-linear>
         <v-layout>
@@ -11,9 +11,9 @@
             <span class="subheading primary--text">Informasi Detil</span>
             <v-container fluid grid-list-lg style="padding-left: 0; padding-right: 0;">
               <v-layout row wrap>
-                <v-flex xs12>
+                <v-flex xs6>
                   <v-text-field
-                    label="Nama Hewan"
+                    label="Nama"
                     name="Nama"
                     v-model="entry.name"
                     v-validate="`required`"
@@ -21,13 +21,67 @@
                     :disabled="inputDisabled || readonly"
                     required/>
                 </v-flex>
+
+                <v-flex xs6>
+                  <v-text-field
+                    label="Username"
+                    name="Username"
+                    v-model="entry.username"
+                    v-validate="`required`"
+                    :error-messages="vv_errors.collect('Username')"
+                    :disabled="inputDisabled || readonly"
+                    required/>
+                </v-flex>
+              </v-layout>
+
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-text-field
+                    label="Email"
+                    name="Email"
+                    v-model="entry.email"
+                    v-validate="`required`"
+                    :error-messages="vv_errors.collect('Email')"
+                    :disabled="inputDisabled || readonly"
+                    required/>
+                </v-flex>
+
+                <v-flex xs6>
+                  <v-text-field
+                    label="Telepon"
+                    name="Telepon"
+                    v-model="entry.phone"
+                    v-validate="`required`"
+                    :error-messages="vv_errors.collect('Telepon')"
+                    :disabled="inputDisabled || readonly"
+                    required/>
+                </v-flex>
+              </v-layout>
+
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <v-text-field
+                    label="Nik"
+                    name="Nik"
+                    v-model="entry.nik"
+                    v-validate="`required`"
+                    :error-messages="vv_errors.collect('Nik')"
+                    :disabled="inputDisabled || readonly"
+                    required/>
+                </v-flex>
+
+                <v-flex xs6>
+                  <user-role
+                    @input="getRole($event)"
+                    :value="entry.user_role"></user-role>
+                </v-flex>
               </v-layout>
 
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-text-field
-                    label="Deskripsi Hewan"
-                    v-model="entry.description"
+                    label="Alamat"
+                    v-model="entry.address"
                     :disabled="readonly"
                     required
                     multi-line/>
@@ -58,7 +112,8 @@
 <script>
 import validator from '~/mixins/validator'
 import { mapActions, mapState, mapMutations } from 'vuex'
-import * as ANIMAL from '~/store/modules/animal/types'
+import * as USER from '~/store/modules/user/types'
+import UserRole from '~/components/form/fields/selects/UserRole'
 
 export default {
   mixins: [validator],
@@ -80,9 +135,13 @@ export default {
     }
   },
 
+  components: {
+    UserRole
+  },
+
   computed: {
     ...mapState({
-      entry: state => state.animal.entry
+      entry: state => state.user.entry
     })
   },
 
@@ -101,14 +160,18 @@ export default {
 
   methods: {
     ...mapActions({
-      createData: ANIMAL.CREATE_DATA,
-      updateData: ANIMAL.UPDATE_DATA,
-      fetchDetail: ANIMAL.FETCH_DETAIL_DATA
+      createData: USER.CREATE_DATA,
+      updateData: USER.UPDATE_DATA,
+      fetchDetail: USER.FETCH_DETAIL_DATA
     }),
 
     ...mapMutations({
-      pruneState: ANIMAL.PRUNE_STATE
+      pruneState: USER.PRUNE_STATE
     }),
+
+    getRole (val) {
+      this.entry.user_role = val
+    },
 
     readOnlyPage () {
       let flag = false
@@ -147,24 +210,20 @@ export default {
     },
 
     mappingBeforeSubmit () {
-      let data = {
-        name: this.entry.name,
-        description: this.entry.description
-      }
+      let data = this.entry
 
       return data
     },
 
     mappingDetail () {
-      this.entry = {
-        name: this.entry.name,
-        description: this.entry.description
-      }
+      // this.entry = {
+      //   name: this.entry.name
+      // }
     },
 
     editData () {
       let id = this.$route.params.id
-      this.$nuxt.$router.push('/admin/hewan/' + id)
+      this.$nuxt.$router.push('/admin/user/' + id)
     },
 
     submit () {
@@ -186,7 +245,7 @@ export default {
       let data = this.mappingBeforeSubmit()
       this.createData(data).then((response) => {
         this.$toast.success(response.data.message ? response.data.message : 'Data berhasil dimasukan')
-        this.$nuxt.$router.push('/admin/hewan/list')
+        this.$nuxt.$router.push('/admin/user/list')
         this.isLoading = false
       }, (error) => {
         this.isLoading = false
@@ -203,7 +262,7 @@ export default {
 
       this.updateData({id: this.$route.params.id, data: data}).then((response) => {
         this.$toast.success(response.data.message ? response.data.message : 'Data berhasil diubah')
-        this.$nuxt.$router.push('/admin/hewan/list')
+        this.$nuxt.$router.push('/admin/user/list')
         this.isLoading = false
       }, (error) => {
         this.isLoading = false

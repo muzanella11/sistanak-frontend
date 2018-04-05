@@ -34,10 +34,6 @@ export default {
       type: String,
       default: 'Pilih Role'
     },
-    loading: {
-      type: Boolean,
-      default: false
-    },
     multiLine: {
       type: Boolean,
       default: false
@@ -52,11 +48,11 @@ export default {
     },
     setItemsText: {
       type: String,
-      default: 'text'
+      default: 'name'
     },
     setItemsValue: {
       type: String,
-      default: 'value'
+      default: 'role_id'
     },
     value: null
   },
@@ -64,7 +60,8 @@ export default {
   data () {
     return {
       selected: null,
-      entries: [
+      loading: false,
+      entriesDefault: [
         { text: 'KTP', value: 1 },
         { text: 'SIM', value: 2 },
         { text: 'PASSPORT', value: 3 },
@@ -74,7 +71,11 @@ export default {
   },
 
   mounted () {
-
+    this.selected = this.value
+    this.loading = true
+    this.fetchResource().then(response => {
+      this.loading = false
+    })
   },
 
   watch: {
@@ -89,13 +90,13 @@ export default {
 
   computed: {
     ...mapState({
-      items: state => state.location.entriesProvince
+      items: state => state.role.entries
     })
   },
 
   methods: {
     ...mapActions({
-      fetchProvinces: LOCATION.FETCH_PROVINCE
+      fetchResource: ROLE.FETCH_RESOURCE
     })
   }
 }
