@@ -12,6 +12,11 @@ export default {
     data: '/role',
     create: '/role/create'
   },
+  environment: {
+    index: '/environment/data',
+    data: '/environment/data',
+    create: '/environment/data/create'
+  },
   animal: {
     index: '/animal/data',
     data: '/animal/data',

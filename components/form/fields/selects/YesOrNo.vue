@@ -1,5 +1,6 @@
 <template>
   <v-select
+    :clearable="true"
     :items="items"
     :label="label"
     :loading="loading"
@@ -23,7 +24,7 @@ export default {
     },
     label: {
       type: String,
-      default: 'Pilih Tipe Identitas'
+      default: 'Pilih Opsi'
     },
     loading: {
       type: Boolean,
@@ -56,15 +57,14 @@ export default {
     return {
       selected: null,
       items: [
-        { text: 'KTP', value: 1 },
-        { text: 'SIM', value: 2 },
-        { text: 'PASSPORT', value: 3 },
-        { text: 'NPWP', value: 4 }
+        { text: 'Ya', value: 1 },
+        { text: 'Tidak', value: 0 }
       ]
     }
   },
 
   mounted () {
+    this.loading = false
     this.selected = this.value
   },
 

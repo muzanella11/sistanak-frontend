@@ -1,6 +1,5 @@
 <template>
   <v-select
-    class="en-filter"
     :items="items"
     :label="label"
     :loading="loading"
@@ -12,11 +11,6 @@
     v-model="selected"
     :overflow="false"/>
 </template>
-
-<style lang="stylus">
-.en-filter
-  position: relative
-</style>
 
 <script>
 import * as ROLE from '~/store/modules/role/types'
@@ -80,7 +74,9 @@ export default {
 
   watch: {
     value (val) {
-      this.selected = val
+      setTimeout(() => {
+        this.selected = val
+      }, 300)
     },
 
     selected (val) {

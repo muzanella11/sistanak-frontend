@@ -7,6 +7,7 @@ import animalOwnership from './animalownership'
 import location from './location'
 import user from './user'
 import role from './role'
+import environment from './environment'
 
 export default {
   example,
@@ -17,5 +18,6 @@ export default {
   animalOwnership,
   location,
   user,
-  role
+  role,
+  environment
 }

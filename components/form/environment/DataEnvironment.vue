@@ -3,7 +3,7 @@
     <v-flex offset-xs2 xs8 class="pt-4 pb-4" :class="{'en-loading': isLoading}">
       <v-card flat class="user__card">
         <header class="user__card-header">
-          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data Ownership Hewan
+          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data Environment
         </header>
         <v-progress-linear v-if="isLoading" class="loader-linear" color="red" :indeterminate="true"></v-progress-linear>
         <v-layout>
@@ -11,53 +11,48 @@
             <span class="subheading primary--text">Informasi Detil</span>
             <v-container fluid grid-list-lg style="padding-left: 0; padding-right: 0;">
               <v-layout row wrap>
-                <v-flex xs6>
-                  <v-text-field
-                    label="Nama Pemilik Hewan"
-                    name="Nama"
-                    v-model="entry.fullname"
-                    v-validate="`required`"
-                    :error-messages="vv_errors.collect('Nama')"
-                    :disabled="inputDisabled || readonly"
-                    required/>
-                </v-flex>
-                <v-flex xs6>
-                  <v-text-field
-                    label="Nomor Telepon"
-                    name="No.Telepon"
-                    v-model="entry.phone"
-                    v-validate="`required`"
-                    :error-messages="vv_errors.collect('No.Telepon')"
-                    :disabled="inputDisabled || readonly"
-                    required/>
-                </v-flex>
-              </v-layout>
-
-              <v-layout row wrap>
                 <v-flex xs4>
-                  <location-province :clearable="true" @input="getProvince($event)" :value="parseInt(entry.province_id)"></location-province>
+                  <location-province :clearable="true" @input="getProvince($event)" :value="entry.province_id"></location-province>
                 </v-flex>
                 <v-flex xs4>
-                  <location-region :clearable="true" :province-id="parseInt(entry.province_id)" @input="getRegion($event)" :value="parseInt(entry.region_id)" :disabled="disabledRegion"></location-region>
+                  <location-region :clearable="true" :province-id="parseInt(entry.province_id)" @input="getRegion($event)" :value="entry.district_id" :disabled="disabledRegion"></location-region>
                 </v-flex>
                 <v-flex xs4>
-                  <location-village :clearable="true" :city-id="parseInt(entry.region_id)" @input="getVillage($event)" :value="parseInt(entry.village_id)" :disabled="disabledVillage"></location-village>
+                  <location-village :clearable="true" :city-id="parseInt(entry.district_id)" @input="getVillage($event)" :value="entry.village_id" :disabled="disabledVillage"></location-village>
                 </v-flex>
               </v-layout>
 
               <v-layout row wrap>
                 <v-flex xs6>
-                  <v-text-field
-                    label="Nomor Identitas"
-                    name="No.Identitas"
-                    v-model="entry.identity_number"
-                    v-validate="`required`"
-                    :error-messages="vv_errors.collect('No.Identitas')"
-                    :disabled="inputDisabled || readonly"
-                    required/>
+                  <yes-or-no label="Drainase" @input="getDrainase($event)" :value="entry.drainase"></yes-or-no>
                 </v-flex>
                 <v-flex xs6>
-                  <identity-type @input="getIdentityType($event)" :value="parseInt(entry.identity_type)"></identity-type>
+                  <yes-or-no label="Hygiene" @input="getHygiene($event)" :value="entry.hygiene"></yes-or-no>
+                </v-flex>
+              </v-layout>
+
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <yes-or-no label="Sumber Air" @input="getFount($event)" :value="entry.fount"></yes-or-no>
+                </v-flex>
+                <v-flex xs6>
+                  <yes-or-no label="Polusi" @input="getPollution($event)" :value="entry.pollution"></yes-or-no>
+                </v-flex>
+              </v-layout>
+
+              <v-layout row wrap>
+                <v-flex xs6>
+                  <yes-or-no label="Ketersediaan Sumber Makanan" @input="getFoodAvail($event)" :value="entry.food_availability"></yes-or-no>
+                </v-flex>
+                <v-flex xs6>
+                  <v-text-field
+                    label="Luas Area"
+                    name="Area"
+                    v-model="entry.land_area"
+                    v-validate="`required`"
+                    :error-messages="vv_errors.collect('Area')"
+                    :disabled="inputDisabled || readonly"
+                    required/>
                 </v-flex>
               </v-layout>
 
@@ -69,56 +64,6 @@
                     :disabled="readonly"
                     required
                     multi-line/>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-        </v-layout>
-
-        <v-divider/>
-
-        <v-layout>
-          <v-card-text>
-            <span class="subheading primary--text">Data Hewan</span>
-            <v-container fluid grid-list-lg style="padding-left: 0; padding-right: 0;">
-              <v-layout row wrap v-for="(animal, index) in entry.animal_list" :key="animal.ownership_detail_id">
-                <v-flex xs12>
-                  <span class="subheading primary--text">Hewan {{ index + 1 }}</span>
-                </v-flex>
-                <v-flex xs6>
-                  <animal-list @input="setAnimalList(index, $event)" :value="parseInt(animal.animal_id)"></animal-list>
-                </v-flex>
-                <v-flex xs5>
-                  <v-text-field
-                    label="Jumlah Hewan"
-                    name="Jumlah"
-                    v-model="entry.animal_list[index].amount"
-                    v-validate="`required`"
-                    :error-messages="vv_errors.collect('Jumlah')"
-                    :disabled="inputDisabled || readonly"
-                    required/>
-                </v-flex>
-                <v-flex xs1>
-                  <v-btn flat icon color="primary" @click="removeAnimal(index, animal.ownership_detail_id)">
-                    <v-icon>close</v-icon>
-                  </v-btn>
-                </v-flex>
-
-                <v-flex xs6>
-                  <animal-group @input="setAnimalGroup(index, $event)" :value="parseInt(animal.group_id)"></animal-group>
-                </v-flex>
-                <v-flex xs6>
-                  <animal-gender @input="setAnimalGender(index, $event)" :value="parseInt(animal.gender_id)"></animal-gender>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-divider/>
-                </v-flex>
-              </v-layout>
-
-              <v-layout>
-                <v-flex xs12>
-                  <v-btn color="primary" @click.native="addAnimal">Tambah Hewan</v-btn>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -146,26 +91,14 @@
 <script>
 import validator from '~/mixins/validator'
 import { mapActions, mapState, mapMutations } from 'vuex'
-import * as ANIMAL from '~/store/modules/animalownership/types'
+import * as ENVIRONMENT from '~/store/modules/environment/types'
 import LocationProvince from '~/components/form/fields/selects/LocationProvince'
 import LocationRegion from '~/components/form/fields/selects/LocationRegion'
 import LocationVillage from '~/components/form/fields/selects/LocationVillage'
-import IdentityType from '~/components/form/fields/selects/IdentityType'
-import AnimalList from '~/components/form/fields/selects/AnimalList'
-import AnimalGroup from '~/components/form/fields/selects/AnimalGroup'
-import AnimalGender from '~/components/form/fields/selects/AnimalGender'
+import YesOrNo from '~/components/form/fields/selects/YesOrNo'
 
 export default {
   mixins: [validator],
-  components: {
-    LocationProvince,
-    LocationRegion,
-    LocationVillage,
-    IdentityType,
-    AnimalList,
-    AnimalGender,
-    AnimalGroup
-  },
 
   data () {
     return {
@@ -184,10 +117,16 @@ export default {
     }
   },
 
+  components: {
+    LocationProvince,
+    LocationRegion,
+    LocationVillage,
+    YesOrNo
+  },
+
   computed: {
     ...mapState({
-      entry: state => state.animalOwnership.entry,
-      auth: state => state.auth
+      entry: state => state.environment.entry
     }),
 
     disabledRegion () {
@@ -201,7 +140,7 @@ export default {
 
     disabledVillage () {
       let flag = true
-      if (this.entry.region_id) {
+      if (this.entry.district_id) {
         flag = false
       }
 
@@ -224,59 +163,46 @@ export default {
 
   methods: {
     ...mapActions({
-      createData: ANIMAL.CREATE_DATA,
-      updateData: ANIMAL.UPDATE_DATA,
-      deleteDetailData: ANIMAL.DELETE_DETAIL_DATA,
-      fetchDetail: ANIMAL.FETCH_DETAIL_DATA
+      createData: ENVIRONMENT.CREATE_DATA,
+      updateData: ENVIRONMENT.UPDATE_DATA,
+      fetchDetail: ENVIRONMENT.FETCH_DETAIL_DATA
     }),
 
     ...mapMutations({
-      pruneState: ANIMAL.PRUNE_STATE
+      pruneState: ENVIRONMENT.PRUNE_STATE
     }),
-
-    getIdentityType (val) {
-      this.entry.identity_type = val
-    },
 
     getProvince (val) {
       this.entry.province_id = parseInt(val)
     },
 
     getRegion (val) {
-      this.entry.region_id = parseInt(val)
+      console.info('region : ', val)
+      this.entry.district_id = parseInt(val)
     },
 
     getVillage (val) {
       this.entry.village_id = parseInt(val)
     },
 
-    setAnimalList (index, data) {
-      this.entry.animal_list[index].animal_id = parseInt(data)
+    getDrainase (val) {
+      this.entry.drainase = parseInt(val)
     },
 
-    setAnimalGroup (index, data) {
-      this.entry.animal_list[index].group_id = parseInt(data)
+    getHygiene (val) {
+      this.entry.hygiene = parseInt(val)
     },
 
-    setAnimalGender (index, data) {
-      this.entry.animal_list[index].gender_id = parseInt(data)
+    getFount (val) {
+      this.entry.fount = parseInt(val)
     },
 
-    addAnimal () {
-      this.entry.animal_list.push({
-        ownership_id: parseInt(this.$nuxt.$route.params.id),
-        animal_id: null,
-        amount: null,
-        group_id: null,
-        gender_id: null
-      })
+    getPollution (val) {
+      this.entry.pollution = parseInt(val)
     },
 
-    removeAnimal (index, animalDeletedId) {
-      this.entry.animal_list.splice(index, 1)
-      if (animalDeletedId && animalDeletedId !== null) {
-        this.entry.animal_list_delete.push(parseInt(animalDeletedId))
-      }
+    getFoodAvail (val) {
+      this.entry.food_availability = parseInt(val)
     },
 
     readOnlyPage () {
@@ -323,14 +249,13 @@ export default {
 
     mappingDetail () {
       // this.entry = {
-      //   name: this.entry.name,
-      //   description: this.entry.description
+      //   name: this.entry.name
       // }
     },
 
     editData () {
       let id = this.$route.params.id
-      this.$nuxt.$router.push('/admin/hewan/ownership/' + id)
+      this.$nuxt.$router.push('/admin/environment/' + id)
     },
 
     submit () {
@@ -352,7 +277,7 @@ export default {
       let data = this.mappingBeforeSubmit()
       this.createData(data).then((response) => {
         this.$toast.success(response.data.message ? response.data.message : 'Data berhasil dimasukan')
-        this.$nuxt.$router.push('/admin/hewan/ownership/list')
+        this.$nuxt.$router.push('/admin/environment/list')
         this.isLoading = false
       }, (error) => {
         this.isLoading = false
@@ -362,22 +287,14 @@ export default {
 
     update () {
       let data = this.mappingBeforeSubmit()
+      // let takeoutItems = ['email', 'password']
+      // takeoutItems.forEach((el) => {
+      //   delete data[el]
+      // })
 
       this.updateData({id: this.$route.params.id, data: data}).then((response) => {
-        if (this.entry.animal_list_delete.length) {
-          this.entry.animal_list_delete.forEach((el) => {
-            this.deleteDetailData(el).then((response) => {
-              //
-            }, (error) => {
-              this.$toast.error(error)
-            })
-          })
-          this.$nuxt.$router.push('/admin/hewan/ownership/list')
-          this.isLoading = false
-        }
-
         this.$toast.success(response.data.message ? response.data.message : 'Data berhasil diubah')
-        this.$nuxt.$router.push('/admin/hewan/ownership/list')
+        this.$nuxt.$router.push('/admin/environment/list')
         this.isLoading = false
       }, (error) => {
         this.isLoading = false

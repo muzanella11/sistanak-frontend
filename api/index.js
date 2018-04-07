@@ -8,11 +8,13 @@ import locationRegion from './modules/locationRegion'
 import locationVillage from './modules/locationVillage'
 import user from './modules/user'
 import role from './modules/role'
+import environment from './modules/environment'
 
 export default {
   auth,
   user,
   role,
+  environment,
   animal,
   animalGender,
   animalGroup,
