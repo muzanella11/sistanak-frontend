@@ -3,7 +3,7 @@
     <v-flex offset-xs2 xs8 class="pt-4 pb-4" :class="{'en-loading': isLoading}">
       <v-card flat class="user__card">
         <header class="user__card-header">
-          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data Environment
+          {{ readonly ? 'Detail' : isDetail ? 'Ubah' : 'Tambah' }} Data Kesehatan Lingkungan
         </header>
         <v-progress-linear v-if="isLoading" class="loader-linear" color="red" :indeterminate="true"></v-progress-linear>
         <v-layout>

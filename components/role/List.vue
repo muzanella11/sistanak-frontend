@@ -6,7 +6,7 @@
     <v-container grid-list-lg class="user-content">
       <v-layout row wrap>
         <v-flex xs12 v-show="panelStatus.listCampaignSpecial">
-          <panel-expansion idPanel="listCampaignSpecial" title="Detail Role" cardColor="#ffffff" headerCardColor="white">
+          <panel-expansion idPanel="listCampaignSpecial" title="Data Role" cardColor="#ffffff" headerCardColor="white">
             <div slot="header">
               <v-tooltip top v-if="filters.q">
                 <v-btn icon slot="activator" @click="clearFilter">

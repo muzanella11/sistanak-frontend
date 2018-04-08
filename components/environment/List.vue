@@ -6,7 +6,7 @@
     <v-container grid-list-lg class="user-content">
       <v-layout row wrap>
         <v-flex xs12 v-show="panelStatus.listCampaignSpecial">
-          <panel-expansion idPanel="listCampaignSpecial" title="Detail Environment" cardColor="#ffffff" headerCardColor="white">
+          <panel-expansion idPanel="listCampaignSpecial" title="Data Kesehatan Lingkungan" cardColor="#ffffff" headerCardColor="white">
             <div slot="header">
               <v-tooltip top v-if="filters.q">
                 <v-btn icon slot="activator" @click="clearFilter">
@@ -43,14 +43,14 @@
                 <template slot="items" slot-scope="props">
                   <td>
                     <a href="javascript:;" @click="getDetail(props.item.environment_id)">
-                      {{ props.item.province_id }}
+                      {{ props.item.province_detail.name }}
                     </a>
                   </td>
                   <td>
-                    {{ props.item.district_id }}
+                    {{ props.item.region_detail.name }}
                   </td>
                   <td>
-                    {{ props.item.village_id }}
+                    {{ props.item.village_detail.name }}
                   </td>
                   <td>
                     {{ props.item.drainase ? 'Ya' : 'Tidak' }}
@@ -88,7 +88,7 @@
           <v-btn icon @click.native="detailDialog = false" dark>
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Detil Environment</v-toolbar-title>
+          <v-toolbar-title>Detil Kesehatan Lingkungan</v-toolbar-title>
         </v-toolbar>
         <v-card-text v-if="detailDialog">
           <v-container grid-list-md text-xs-center>
@@ -115,51 +115,91 @@
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Nama
+                          Provinsi
                         </b>
                       </v-flex>
                       <v-flex xs8>
-                        {{ entriesDetail.province_id }}
+                        {{ entriesDetail.province_detail.name }}
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Nik
+                          Kota/Kabupaten
                         </b>
                       </v-flex>
                       <v-flex xs8>
-                        {{ entriesDetail.province_id }}
+                        {{ entriesDetail.region_detail.name }}
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Role
+                          Kecamatan
                         </b>
                       </v-flex>
                       <v-flex xs8>
-                        {{ entriesDetail.user_role_detail.name }}
+                        {{ entriesDetail.village_detail.name }}
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Telepon
+                          Drainase
                         </b>
                       </v-flex>
                       <v-flex xs8>
-                        {{ entriesDetail.phone }}
+                        {{ entriesDetail.drainase ? 'Ya' : 'Tidak' }}
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Status Penugasan
+                          Hygiene
                         </b>
                       </v-flex>
                       <v-flex xs8>
-                        {{ entriesDetail.assign_task ? 'Sedang dalam penugasan' : 'Tidak dalam penugasan' }}
+                        {{ entriesDetail.hygiene ? 'Ya' : 'Tidak' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Sumber Air
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.fount ? 'Ya' : 'Tidak' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Pencemaran
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.pollution ? 'Ya' : 'Tidak' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Ketersediaan Sumber Makanan
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.food_availability ? 'Ya' : 'Tidak' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Luas wilayah
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.land_area + ' m' }}<sup>2</sup>
                       </v-flex>
                     </v-layout>
                     <v-layout row wrap>
