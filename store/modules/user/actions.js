@@ -70,5 +70,15 @@ export default {
         reject(error)
       })
     })
+  },
+
+  [USER.DOWNLOAD_REPORT] ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      api.user.report().then((response) => {
+        resolve(response)
+      }, (error) => {
+        reject(error)
+      })
+    })
   }
 }

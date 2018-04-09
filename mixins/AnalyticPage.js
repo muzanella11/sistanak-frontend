@@ -27,6 +27,7 @@ export default {
   },
 
   mounted () {
+    window.moment = moment
     this.listenSearchFilter()
     this.listenPanelClose()
   },

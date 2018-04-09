@@ -294,7 +294,8 @@ export default {
     ...mapActions({
       fetchAnimal: ANIMAL.FETCH_RESOURCE,
       fetchAnimalDetail: ANIMAL.FETCH_DETAIL,
-      deleteAnimal: ANIMAL.DELETE_DATA
+      deleteAnimal: ANIMAL.DELETE_DATA,
+      downloadReport: ANIMAL.DOWNLOAD_REPORT
     }),
     fetchResource () {
       this.isLoading = true
@@ -316,11 +317,12 @@ export default {
       this.$refs.campaignSpecialFilter.clearFilter()
     },
     downloadList () {
-      let dateNow = window.moment().format('YYYY-MM-DD_HH-mm-ss')
-      console.info('dadaadada : ', dateNow)
-      // this.downloadExcel().then(response => {
-      //   fileDownload(response, 'transaction-all-report_' + dateNow + '.xlsx')
-      // })
+      // let dateNow = window.moment().format('YYYY-MM-DD_HH-mm-ss')
+      // console.info('dadaadada : ', dateNow)
+      this.downloadReport().then(response => {
+        window.open('//' + response.data.urlData, 'Download')
+        window.focus()
+      })
     },
     getDetail (id) {
       this.fetchAnimalDetail(id).then((response) => {

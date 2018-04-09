@@ -26,5 +26,9 @@ export default {
 
   deleteDetail (id) {
     return resource.delete(endpointPattren.delete('animalOwnershipDetail', id))
+  },
+
+  report (id) {
+    return resource.get(endpointPattren.report('animalOwnership'))
   }
 }

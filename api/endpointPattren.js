@@ -26,5 +26,13 @@ export default {
 
   delete (moduleName, id) {
     return endpoint[moduleName].index + '/' + id + '/delete'
+  },
+
+  report (moduleName) {
+    return endpoint[moduleName].index + '/report'
+  },
+
+  custom (moduleName, urlCustom) {
+    return endpoint[moduleName].index + urlCustom
   }
 }

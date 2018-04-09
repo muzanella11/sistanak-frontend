@@ -64,5 +64,15 @@ export default {
         reject(error)
       })
     })
+  },
+
+  [ANIMAL.DOWNLOAD_REPORT] ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      api.animal.report().then((response) => {
+        resolve(response)
+      }, (error) => {
+        reject(error)
+      })
+    })
   }
 }
