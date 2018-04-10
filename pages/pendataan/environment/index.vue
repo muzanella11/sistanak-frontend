@@ -7,7 +7,7 @@ export default {
   },
 
   mounted () {
-    this.$nuxt.$router.push({path: '/admin/hewan/group/list'})
+    this.$nuxt.$router.push({path: '/pendataan/environment/list'})
   }
 }
 </script>

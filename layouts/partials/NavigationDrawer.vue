@@ -4,68 +4,86 @@
       clipped
       app
     >
-    <v-list dense>
-      <v-list-tile v-for="item in items" :key="item.text" @click="">
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>
-            {{ item.text }}
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-subheader class="mt-3 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
-      <v-list>
-        <v-list-tile v-for="item in items2" :key="item.text" avatar @click="">
-          <v-list-tile-avatar>
-            <img :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`" alt="">
-          </v-list-tile-avatar>
-          <v-list-tile-title v-text="item.text"></v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-      <v-list-tile class="mt-3" @click="">
-        <v-list-tile-action>
-          <v-icon color="grey darken-1">add_circle_outline</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title class="grey--text text--darken-1">Browse Channels</v-list-tile-title>
-      </v-list-tile>
-      <v-list-tile @click="">
-        <v-list-tile-action>
-          <v-icon color="grey darken-1">settings</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title class="grey--text text--darken-1">Manage Subscriptions</v-list-tile-title>
-      </v-list-tile>
+    <v-list>
+      <div class="enMenu" v-for="(item, index) in items" :key="index">
+        <template v-if="item.items">
+          <v-list-group
+            :prepend-icon="item.icon"
+            no-action
+            :group="item.group"
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile v-for="subItem in item.items" nuxt exact :key="subItem.title" :to="{path:subItem.route}">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon>{{ subItem.icon }}</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+        </template>
+
+        <template v-else>
+          <v-list-group
+            :prepend-icon="item.icon"
+            :group="item.group"
+            no-action
+          >
+            <v-list-tile slot="activator" nuxt exact :key="item.title" :to="{path:item.route}">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>
+        </template>
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import adminMenu from './../menu/admin'
+import managerMenu from './../menu/manager'
+import userMenu from './../menu/user'
+
 export default {
   data () {
     return {
-      items: [
-        { icon: 'trending_up', text: 'Most Popular' },
-        { icon: 'subscriptions', text: 'Subscriptions' },
-        { icon: 'history', text: 'History' },
-        { icon: 'featured_play_list', text: 'Playlists' },
-        { icon: 'watch_later', text: 'Watch Later' }
-      ],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' }
-      ]
+      items: []
+    }
+  },
+
+  mounted () {
+    this.init()
+  },
+
+  methods: {
+    init () {
+      if (this.userRole === 1 || this.userRole === 2) {
+        this.items = adminMenu
+      } else if (this.userRole === 4 || this.userRole === 5) {
+        this.items = managerMenu
+      } else {
+        this.items = userMenu
+      }
     }
   },
 
   computed: {
     ...mapState({
+      auth: state => state.auth,
       layoutSettings: state => state.layoutSettings
-    })
+    }),
+
+    userRole () {
+      return parseInt(this.auth.dataUser.user_role)
+    }
   }
 }
 </script>
