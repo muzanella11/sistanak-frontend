@@ -95,11 +95,11 @@ export default [
     items: [
       {
         title: 'Daftar Kesehatan Lingkungan',
-        route: '/admin/hewan/environment/list'
+        route: '/admin/environment/list'
       },
       {
         title: 'Buat Kesehatan Lingkungan',
-        route: '/admin/hewan/environment/create'
+        route: '/admin/environment/create'
       }
     ]
   },

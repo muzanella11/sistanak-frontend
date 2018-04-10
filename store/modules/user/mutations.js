@@ -5,7 +5,15 @@ export default {
   [USER.SET_STATE]: mutator,
 
   [USER.PRUNE_STATE] (state) {
-    state.entry.name = null
-    state.entry.description = null
+    state.entry = {
+      nik: null,
+      name: null,
+      username: null,
+      email: null,
+      password: null,
+      phone: null,
+      user_role: null,
+      address: null
+    }
   }
 }

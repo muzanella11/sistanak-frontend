@@ -5,7 +5,16 @@ export default {
   [USER.SET_STATE]: mutator,
 
   [USER.PRUNE_STATE] (state) {
-    state.entry.name = null
-    state.entry.description = null
+    state.entry = {
+      province_id: null,
+      district_id: null,
+      village_id: null,
+      drainase: null,
+      hygiene: null,
+      fount: null,
+      pollution: null,
+      food_availability: null,
+      land_area: null
+    }
   }
 }

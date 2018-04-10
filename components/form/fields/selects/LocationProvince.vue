@@ -55,6 +55,7 @@ export default {
   mounted () {
     this.selected = this.value
     this.loading = true
+    this.items = []
     this.fetchProvinces().then(respones => {
       this.loading = false
     })
@@ -66,7 +67,6 @@ export default {
   },
   watch: {
     value (value) {
-      console.info('valll : ', value)
       this.selected = value
     },
     selected (value) {

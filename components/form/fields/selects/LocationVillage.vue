@@ -57,6 +57,7 @@ export default {
     this.selected = this.value
     if (_.isNumber(this.cityId)) {
       this.loading = true
+      this.districts = []
       this.fetchDistricts({q: null, district: this.cityId}).then(respones => {
         this.loading = false
       })
@@ -66,6 +67,7 @@ export default {
     cityId (value) {
       if (_.isNumber(value)) {
         this.loading = true
+        this.districts = []
         this.fetchDistricts({q: null, district: value}).then(respones => {
           this.loading = false
         })

@@ -93,6 +93,7 @@ export default {
   },
 
   mounted () {
+    this.pruneState()
     this.readOnlyPage()
     if (this.checkIsDetail()) {
       this.fetchResourceDetail()

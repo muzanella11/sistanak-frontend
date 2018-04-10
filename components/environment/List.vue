@@ -255,13 +255,13 @@ export default {
           value: 'name'
         },
         {
-          text: 'Kota/Kab',
+          text: 'Kota/Kabupaten',
           align: 'left',
           sortable: false,
           value: 'name'
         },
         {
-          text: 'Desa',
+          text: 'Kecamatan',
           align: 'left',
           sortable: false,
           value: 'name'

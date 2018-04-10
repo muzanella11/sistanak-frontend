@@ -5,7 +5,9 @@ export default {
   [ROLE.SET_STATE]: mutator,
 
   [ROLE.PRUNE_STATE] (state) {
-    state.entry.name = null
-    state.entry.description = null
+    state.entry = {
+      name: null,
+      description: null
+    }
   }
 }
