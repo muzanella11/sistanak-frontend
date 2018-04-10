@@ -14,6 +14,7 @@ export const DOWNLOAD_REPORT = `${TAG}_DOWNLOAD_REPORT`
 export const CREATE_DATA = `${TAG}_CREATE_DATA`
 export const UPDATE_DATA = `${TAG}_UPDATE_DATA`
 export const DELETE_DATA = `${TAG}_DELETE_DATA`
+export const SET_PENUGASAN = `${TAG}_SET_PENUGASAN`
 /*******************************************************************************/
 
 /** ************************ For Getters ****************************************/

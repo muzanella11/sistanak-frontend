@@ -319,6 +319,7 @@ export default {
 
   computed: {
     ...mapState({
+      auth: state => state.auth,
       entries: state => state.user.entries,
       entriesDetail: state => state.user.entriesDetail
     }),
@@ -369,7 +370,8 @@ export default {
       fetchUserDetail: USER.FETCH_DETAIL,
       updateData: USER.UPDATE_DATA,
       deleteUser: USER.DELETE_DATA,
-      downloadReport: USER.DOWNLOAD_REPORT
+      downloadReport: USER.DOWNLOAD_REPORT,
+      setPenugasan: USER.SET_PENUGASAN
     }),
     fetchResource () {
       this.isLoading = true
@@ -403,6 +405,14 @@ export default {
         this.updateData({id: data.user_id, data: {assign_task: data.assign_task === 0 ? 1 : 'nol'}}).then(() => {
           this.$toast.success(data.assign_task === 0 ? 'Berhasil menetapkan penugasan' : 'Berhasil mengakhiri penugasan')
           this.detailDialog = false
+          if (data.assign_task === 0) {
+            this.setPenugasan({penerima_id: data.user_id, pemberi_id: parseInt(this.auth.dataUser.user_id)}).then((response) => {
+              window.open('//' + response.data.urlData, 'Download')
+              window.focus()
+            }, () => {
+              this.$toast.error('Terjadi Kesalahan')
+            })
+          }
           this.fetchResource()
         }, () => {
           this.$toast.error(data.assign_task === 0 ? 'Gagal menetapkan penugasan' : 'Gagal mengakhiri penugasan')

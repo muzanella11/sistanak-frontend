@@ -80,5 +80,15 @@ export default {
         reject(error)
       })
     })
+  },
+
+  [USER.SET_PENUGASAN] ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      api.user.setPenugasan(data).then((response) => {
+        resolve(response)
+      }, (error) => {
+        reject(error)
+      })
+    })
   }
 }

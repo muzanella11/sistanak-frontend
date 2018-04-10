@@ -26,5 +26,9 @@ export default {
 
   report (id) {
     return resource.get(endpointPattren.report('user'))
+  },
+
+  setPenugasan (data) {
+    return resource.post(endpointPattren.custom('user', '/penugasan'), data)
   }
 }
