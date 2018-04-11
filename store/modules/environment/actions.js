@@ -63,5 +63,15 @@ export default {
         reject(error)
       })
     })
+  },
+
+  [ENVIRONMENT.DOWNLOAD_REPORT] ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      api.environment.report().then((response) => {
+        resolve(response)
+      }, (error) => {
+        reject(error)
+      })
+    })
   }
 }

@@ -22,5 +22,9 @@ export default {
 
   delete (id) {
     return resource.delete(endpointPattren.delete('environment', id))
+  },
+
+  report (id) {
+    return resource.get(endpointPattren.report('environment'))
   }
 }

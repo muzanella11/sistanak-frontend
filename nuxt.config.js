@@ -2,7 +2,7 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  mode: 'spa',
+  mode: 'pwa',
   head: {
     title: 'Sistem Informasi Hewan Ternak',
     meta: [
@@ -23,7 +23,19 @@ module.exports = {
     '~/plugins/event-bus.js',
     '~/plugins/vee-validate.js'
   ],
+  icon: {
+    iconSrc: [
+      '~/static/favicon.ico',
+      '~/static/v.png'
+    ]
+  },
+  workbox: {
+    importScripts: [
+      './service-worker.js'
+    ],
+  },
   modules: [
+    ['@nuxtjs/pwa', { icon: false }],
     '@nuxtjs/toast'
     // '@nuxtjs/vendor',
     // '@nuxtjs/font-awesome'

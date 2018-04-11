@@ -417,7 +417,8 @@ export default {
       fetchEnvironment: ENVIRONMENT.FETCH_RESOURCE,
       fetchEnvironmentDetail: ENVIRONMENT.FETCH_DETAIL,
       updateData: ENVIRONMENT.UPDATE_DATA,
-      deleteEnvironment: ENVIRONMENT.DELETE_DATA
+      deleteEnvironment: ENVIRONMENT.DELETE_DATA,
+      downloadReport: ENVIRONMENT.DOWNLOAD_REPORT
     }),
     fetchResource () {
       this.isLoading = true
@@ -439,11 +440,15 @@ export default {
       this.$refs.campaignSpecialFilter.clearFilter()
     },
     downloadList () {
-      let dateNow = window.moment().format('YYYY-MM-DD_HH-mm-ss')
-      console.info('dadaadada : ', dateNow)
+      // let dateNow = window.moment().format('YYYY-MM-DD_HH-mm-ss')
+      // console.info('dadaadada : ', dateNow)
       // this.downloadExcel().then(response => {
       //   fileDownload(response, 'transaction-all-report_' + dateNow + '.xlsx')
       // })
+      this.downloadReport().then(response => {
+        window.open('//' + response.data.urlData, 'Download')
+        window.focus()
+      })
     },
     assignTask (data) {
       this.$dialog({title: data.assign_task === 0 ? 'Tetapkan Penugasan' : 'Akhiri Penugasan', content: data.assign_task === 0 ? 'Anda yakin akan menetapkan penugasan kepada user ini?' : 'Anda yakin akan mengakhiri penugasan kepada user ini?'}, () => {
