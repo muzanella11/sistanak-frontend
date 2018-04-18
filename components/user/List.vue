@@ -152,16 +152,6 @@
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Status Penugasan
-                        </b>
-                      </v-flex>
-                      <v-flex xs8>
-                        {{ entriesDetail.assign_task ? 'Sedang dalam penugasan' : 'Tidak dalam penugasan' }}
-                      </v-flex>
-                    </v-layout>
-                    <v-layout row wrap>
-                      <v-flex xs4>
-                        <b>
                           Alamat
                         </b>
                       </v-flex>
@@ -171,9 +161,37 @@
                         {{ entriesDetail.address }}
                       </v-flex>
                     </v-layout>
+
+                    <v-layout row wrap style="margin: 32px 0;">
+                      <v-flex xs12>
+                        <v-divider/>
+                      </v-flex>
+                    </v-layout>
+
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <b>
+                          Status Penugasan
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.assign_task ? 'Sedang dalam penugasan' : 'Tidak dalam penugasan' }}
+                      </v-flex>
+                    </v-layout>
+                    <v-layout row wrap v-if="entriesDetail.assign_task === 1">
+                      <v-flex xs4>
+                        <b>
+                          Pemberi Perintah
+                        </b>
+                      </v-flex>
+                      <v-flex xs8>
+                        {{ entriesDetail.giver_task_detail.name }}
+                      </v-flex>
+                    </v-layout>
                     <v-layout row wrap>
                       <v-flex xs12>
                         <v-btn block color="primary" @click="assignTask(entriesDetail)" v-if="entriesDetail.assign_task === 0">Tetapkan Penugasan</v-btn>
+                        <v-btn block color="cyan" class="white--text" @click="downloadPenugasan(entriesDetail)" v-if="entriesDetail.assign_task === 1">Unduh Surat Penugasan</v-btn>
                         <v-btn block color="red" class="white--text" @click="assignTask(entriesDetail)" v-if="entriesDetail.assign_task === 1">Akhiri Penugasan</v-btn>
                       </v-flex>
                     </v-layout>
@@ -265,52 +283,52 @@ export default {
       },
       dataMaster: [],
       dataComponentsDropdowns: [
-        {
-          name: 'filter',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Filter dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        },
-        {
-          name: 'sort',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Lihat dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        }
+        // {
+        //   name: 'filter',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Filter dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // },
+        // {
+        //   name: 'sort',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Lihat dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // }
       ],
       isLoading: false,
       detailDialog: false
@@ -373,6 +391,7 @@ export default {
       downloadReport: USER.DOWNLOAD_REPORT,
       setPenugasan: USER.SET_PENUGASAN
     }),
+
     fetchResource () {
       this.isLoading = true
       this.dataMaster = {}
@@ -385,13 +404,16 @@ export default {
         this.isLoading = false
       })
     },
+
     paginationChanged (page) {
       this.pagination.page = page
       this.fetchResource()
     },
+
     clearFilter () {
       this.$refs.campaignSpecialFilter.clearFilter()
     },
+
     downloadList () {
       // let dateNow = window.moment().format('YYYY-MM-DD_HH-mm-ss')
       // console.info('dadaadada : ', dateNow)
@@ -400,9 +422,19 @@ export default {
         window.focus()
       })
     },
+
+    downloadPenugasan (data) {
+      this.setPenugasan({penerima_id: data.user_id, pemberi_id: parseInt(this.auth.dataUser.user_id)}).then((response) => {
+        window.open('//' + response.data.urlData, 'Download')
+        window.focus()
+      }, () => {
+        this.$toast.error('Terjadi Kesalahan Saat Menset Penugasan')
+      })
+    },
+
     assignTask (data) {
       this.$dialog({title: data.assign_task === 0 ? 'Tetapkan Penugasan' : 'Akhiri Penugasan', content: data.assign_task === 0 ? 'Anda yakin akan menetapkan penugasan kepada user ini?' : 'Anda yakin akan mengakhiri penugasan kepada user ini?'}, () => {
-        this.updateData({id: data.user_id, data: {assign_task: data.assign_task === 0 ? 1 : 'nol'}}).then(() => {
+        this.updateData({id: data.user_id, data: {assign_task: data.assign_task === 0 ? 1 : 'nol', giver_task: data.assign_task === 0 ? parseInt(this.auth.dataUser.user_id) : null}}).then(() => {
           this.$toast.success(data.assign_task === 0 ? 'Berhasil menetapkan penugasan' : 'Berhasil mengakhiri penugasan')
           this.detailDialog = false
           if (data.assign_task === 0) {
@@ -410,7 +442,7 @@ export default {
               window.open('//' + response.data.urlData, 'Download')
               window.focus()
             }, () => {
-              this.$toast.error('Terjadi Kesalahan')
+              this.$toast.error('Terjadi Kesalahan Saat Menset Penugasan')
             })
           }
           this.fetchResource()
@@ -419,6 +451,7 @@ export default {
         })
       })
     },
+
     getDetail (id) {
       this.fetchUserDetail(id).then((response) => {
         this.detailDialog = true
@@ -426,6 +459,7 @@ export default {
         this.$toast.error('Something error when fetching detail')
       })
     },
+
     getActionItems (action, id) {
       if (action === 'edit') {
         this.$nuxt.$router.push('/admin/user/' + id)

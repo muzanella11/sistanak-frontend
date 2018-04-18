@@ -87,3 +87,18 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.list__group__items--no-action .list__tile {
+  padding-left: 72px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 12px !important;
+  & .list__tile__title {
+    overflow: unset;
+    white-space: unset;
+    text-overflow: unset;
+    height: auto;
+  }
+}
+</style>

@@ -192,52 +192,52 @@ export default {
       },
       dataMaster: [],
       dataComponentsDropdowns: [
-        {
-          name: 'filter',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Filter dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        },
-        {
-          name: 'sort',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Lihat dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        }
+        // {
+        //   name: 'filter',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Filter dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // },
+        // {
+        //   name: 'sort',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Lihat dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // }
       ],
       isLoading: false,
       detailDialog: false

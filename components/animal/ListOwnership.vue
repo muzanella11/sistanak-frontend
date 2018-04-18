@@ -142,7 +142,7 @@
                     <v-layout row wrap>
                       <v-flex xs4>
                         <b>
-                          Desa
+                          Kecamatan
                         </b>
                       </v-flex>
                       <v-flex xs8>
@@ -208,7 +208,7 @@ export default {
           value: 'date'
         },
         {
-          text: 'Desa',
+          text: 'Kecamatan',
           align: 'left',
           sortable: false,
           value: 'date'
@@ -249,52 +249,52 @@ export default {
       },
       dataMaster: [],
       dataComponentsDropdowns: [
-        {
-          name: 'filter',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Filter dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        },
-        {
-          name: 'sort',
-          type: 'dropdowns',
-          setting: {
-            entries: [
-              {
-                label: 'Provinsi',
-                value: 1
-              },
-              {
-                label: 'Role',
-                value: 2
-              }
-            ],
-            label: 'Lihat dari',
-            loading: false,
-            multiLine: false,
-            multiple: false,
-            required: false,
-            setItemsText: 'label',
-            setItemsValue: 'value'
-          }
-        }
+        // {
+        //   name: 'filter',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Filter dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // },
+        // {
+        //   name: 'sort',
+        //   type: 'dropdowns',
+        //   setting: {
+        //     entries: [
+        //       {
+        //         label: 'Provinsi',
+        //         value: 1
+        //       },
+        //       {
+        //         label: 'Role',
+        //         value: 2
+        //       }
+        //     ],
+        //     label: 'Lihat dari',
+        //     loading: false,
+        //     multiLine: false,
+        //     multiple: false,
+        //     required: false,
+        //     setItemsText: 'label',
+        //     setItemsValue: 'value'
+        //   }
+        // }
       ],
       isLoading: false,
       detailDialog: false

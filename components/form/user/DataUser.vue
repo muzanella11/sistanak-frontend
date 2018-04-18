@@ -171,7 +171,7 @@ export default {
     }),
 
     getRole (val) {
-      this.entry.user_role = val
+      this.entry.user_role = parseInt(val)
     },
 
     readOnlyPage () {

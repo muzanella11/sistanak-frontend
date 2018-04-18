@@ -74,9 +74,7 @@ export default {
 
   watch: {
     value (val) {
-      setTimeout(() => {
-        this.selected = val
-      }, 300)
+      this.selected = val
     },
 
     selected (val) {
