@@ -43,8 +43,11 @@
                 <template slot="items" slot-scope="props">
                   <td>
                     <a href="javascript:;" @click="getDetail(props.item.environment_id)">
-                      {{ props.item.province_detail.name }}
+                      {{ props.item.fullname }}
                     </a>
+                  </td>
+                  <td>
+                    {{ props.item.province_detail.name }}
                   </td>
                   <td>
                     {{ props.item.region_detail.name }}
@@ -52,7 +55,7 @@
                   <td>
                     {{ props.item.village_detail.name }}
                   </td>
-                  <td>
+                  <!-- <td>
                     {{ props.item.drainase ? 'Ya' : 'Tidak' }}
                   </td>
                   <td>
@@ -60,7 +63,7 @@
                   </td>
                   <td>
                     {{ props.item.fount ? 'Ya' : 'Tidak' }}
-                  </td>
+                  </td> -->
                   <td>
                     {{ formatDate(props.item.date_created, 'HH:mm | DD MMM YYYY') }}
                   </td>
@@ -249,6 +252,12 @@ export default {
       selected: [],
       headers: [
         {
+          text: 'Nama',
+          align: 'left',
+          sortable: false,
+          value: 'name'
+        },
+        {
           text: 'Provinsi',
           align: 'left',
           sortable: false,
@@ -266,24 +275,24 @@ export default {
           sortable: false,
           value: 'name'
         },
-        {
-          text: 'Drainase',
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        {
-          text: 'Sumber Air',
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        {
-          text: 'Pencemaran',
-          align: 'left',
-          sortable: false,
-          value: 'date'
-        },
+        // {
+        //   text: 'Drainase',
+        //   align: 'left',
+        //   sortable: false,
+        //   value: 'name'
+        // },
+        // {
+        //   text: 'Sumber Air',
+        //   align: 'left',
+        //   sortable: false,
+        //   value: 'name'
+        // },
+        // {
+        //   text: 'Pencemaran',
+        //   align: 'left',
+        //   sortable: false,
+        //   value: 'date'
+        // },
         {
           text: 'Tanggal',
           align: 'left',

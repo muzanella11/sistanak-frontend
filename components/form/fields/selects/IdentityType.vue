@@ -8,6 +8,7 @@
     :required="required"
     :item-text="setItemsText"
     :item-value="setItemsValue"
+    :disabled="disabled"
     v-model="selected"
     :overflow="false"/>
 </template>
@@ -38,6 +39,10 @@ export default {
       default: false
     },
     required: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     },

@@ -8,17 +8,97 @@
         <v-progress-linear v-if="isLoading" class="loader-linear" color="red" :indeterminate="true"></v-progress-linear>
         <v-layout>
           <v-card-text>
+            <span class="subheading primary--text">Informasi Kepemilikan Lingkungan</span>
+            <v-container fluid grid-list-lg style="padding-left: 0; padding-right: 0;">
+              <v-tabs icons-and-text centered dark color="cyan" v-model="tabsActive">
+                <v-tabs-slider color="yellow"></v-tabs-slider>
+                <v-tab href="#tabCreateNew" :disabled="disabledTab.create" @click="tabClick('create')">
+                  Buat Manual
+                  <v-icon>create</v-icon>
+                </v-tab>
+                <v-tab href="#tabAnimalOwnership" :disabled="disabledTab.ownership" @click="tabClick('ownership')">
+                  Data Kepemilikan Hewan
+                  <v-icon>pets</v-icon>
+                </v-tab>
+                <v-tab-item id="tabCreateNew">
+                  <v-card flat>
+                    <v-card-text>
+                      <v-layout row wrap>
+                        <v-flex xs12>
+                          <v-text-field
+                            label="Nama Pemilik"
+                            name="Nama"
+                            v-model="entry.fullname"
+                            v-validate="`required`"
+                            :error-messages="vv_errors.collect('Nama')"
+                            :disabled="inputDisabled || readonly"
+                            required/>
+                        </v-flex>
+                      </v-layout>
+                      <v-layout row wrap>
+                        <v-flex xs6>
+                          <v-text-field
+                            label="Nomor Identitas"
+                            name="No.Identitas"
+                            v-model="entry.identity_number"
+                            v-validate="`required`"
+                            :error-messages="vv_errors.collect('No.Identitas')"
+                            :disabled="inputDisabled || readonly"
+                            required/>
+                        </v-flex>
+                        <v-flex xs6>
+                          <identity-type @input="getIdentityType($event)" :value="parseInt(entry.identity_type)"></identity-type>
+                        </v-flex>
+                      </v-layout>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item id="tabAnimalOwnership">
+                  <v-card flat>
+                    <v-card-text>
+                      <v-layout row wrap>
+                        <v-flex xs12>
+                          <animal-ownership @input="getOwnership($event)" :value="parseInt(entry.ownership_id)"></animal-ownership>
+                        </v-flex>
+                      </v-layout>
+                      <v-layout row wrap>
+                        <v-flex xs6>
+                          <v-text-field
+                            label="Nomor Identitas"
+                            name="No.Identitas"
+                            v-model="entry.identity_number"
+                            v-validate="`required`"
+                            :error-messages="vv_errors.collect('No.Identitas')"
+                            :disabled="true"
+                            required/>
+                        </v-flex>
+                        <v-flex xs6>
+                          <identity-type @input="getIdentityType($event)" :value="parseInt(entry.identity_type)" :disabled="true"></identity-type>
+                        </v-flex>
+                      </v-layout>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs>
+            </v-container>
+          </v-card-text>
+        </v-layout>
+
+        <v-divider/>
+        
+        <v-layout>
+          <v-card-text>
             <span class="subheading primary--text">Informasi Detil</span>
             <v-container fluid grid-list-lg style="padding-left: 0; padding-right: 0;">
               <v-layout row wrap>
                 <v-flex xs4>
-                  <location-province :clearable="true" @input="getProvince($event)" :value="entry.province_id"></location-province>
+                  <location-province :clearable="true" @input="getProvince($event)" :value="entry.province_id" :disabled="disabledInput.province"></location-province>
                 </v-flex>
                 <v-flex xs4>
-                  <location-region :clearable="true" :province-id="parseInt(entry.province_id)" @input="getRegion($event)" :value="entry.district_id" :disabled="disabledRegion"></location-region>
+                  <location-region :clearable="true" :province-id="parseInt(entry.province_id)" @input="getRegion($event)" :value="entry.district_id" :disabled="disabledRegion || disabledInput.district"></location-region>
                 </v-flex>
                 <v-flex xs4>
-                  <location-village :clearable="true" :city-id="parseInt(entry.district_id)" @input="getVillage($event)" :value="entry.village_id" :disabled="disabledVillage"></location-village>
+                  <location-village :clearable="true" :city-id="parseInt(entry.district_id)" @input="getVillage($event)" :value="entry.village_id" :disabled="disabledVillage || disabledInput.village"></location-village>
                 </v-flex>
               </v-layout>
 
@@ -61,7 +141,7 @@
                   <v-text-field
                     label="Alamat"
                     v-model="entry.address"
-                    :disabled="readonly"
+                    :disabled="readonly || disabledInput.address"
                     required
                     multi-line/>
                 </v-flex>
@@ -96,6 +176,8 @@ import LocationProvince from '~/components/form/fields/selects/LocationProvince'
 import LocationRegion from '~/components/form/fields/selects/LocationRegion'
 import LocationVillage from '~/components/form/fields/selects/LocationVillage'
 import YesOrNo from '~/components/form/fields/selects/YesOrNo'
+import IdentityType from '~/components/form/fields/selects/IdentityType'
+import AnimalOwnership from '~/components/form/fields/selects/AnimalOwnership'
 
 export default {
   mixins: [validator],
@@ -107,13 +189,27 @@ export default {
         'Instansi',
         'Admin'
       ],
+      tabsActive: null,
       isLoading: false,
       isDetail: false,
       isInstansi: false,
       inputDisabled: false,
       disabledSubmit: true,
       readonly: false,
-      submitting: false
+      submitting: false,
+      disabledInput: {
+        province: false,
+        district: false,
+        village: false,
+        address: false
+      },
+      disabledTab: {
+        create: false,
+        ownership: false
+      },
+      localTempData: {
+        entry: {}
+      }
     }
   },
 
@@ -121,12 +217,16 @@ export default {
     LocationProvince,
     LocationRegion,
     LocationVillage,
-    YesOrNo
+    YesOrNo,
+    IdentityType,
+    AnimalOwnership
   },
 
   computed: {
     ...mapState({
-      entry: state => state.environment.entry
+      entry: state => state.environment.entry,
+      tempEnvironment: state => state.environment.temp,
+      animalOwnership: state => state.animalOwnership.entries
     }),
 
     disabledRegion () {
@@ -151,6 +251,9 @@ export default {
   watch: {
     '$route' () {
       this.readOnlyPage()
+    },
+    'entry.ownership_id' (val) {
+      this.getDataOwnership(val)
     }
   },
 
@@ -173,12 +276,131 @@ export default {
       pruneState: ENVIRONMENT.PRUNE_STATE
     }),
 
+    getDataOwnership (id) {
+      if (!this.checkIsDetail()) {
+        console.info('id : ', id)
+        if (id) {
+          let dataMaster = this.animalOwnership
+          let ownerShipData = dataMaster.find((el) => {
+            if (el.ownership_id === id) {
+              return el
+            }
+          })
+
+          this.tempEnvironment.animalOwnership = ownerShipData
+
+          this.entry.fullname = ownerShipData.fullname
+          this.entry.province_id = ownerShipData.province_id
+          this.entry.district_id = ownerShipData.region_id
+          this.entry.village_id = ownerShipData.village_id
+          this.entry.identity_type = ownerShipData.identity_type
+          this.entry.identity_number = ownerShipData.identity_number
+          this.entry.address = ownerShipData.address
+
+          this.disabledTab.create = true
+
+          this.tabsActive = 'tabAnimalOwnership'
+
+          this.disabledWhenOwnership()
+        } else {
+          this.pruneOwnership(false)
+
+          this.disabledTab.create = false
+
+          this.tabsActive = null
+
+          this.disabledWhenOwnership(false)
+        }
+      } else {
+        console.info('here me ')
+        if (id) {
+          console.info('adasdsd')
+          let dataMaster = this.animalOwnership
+          let ownerShipData = dataMaster.find((el) => {
+            if (el.ownership_id === id) {
+              return el
+            }
+          })
+
+          this.tempEnvironment.animalOwnership = ownerShipData
+
+          this.entry.fullname = ownerShipData.fullname
+          this.entry.province_id = ownerShipData.province_id
+          this.entry.district_id = ownerShipData.region_id
+          this.entry.village_id = ownerShipData.village_id
+          this.entry.identity_type = ownerShipData.identity_type
+          this.entry.identity_number = ownerShipData.identity_number
+          this.entry.address = ownerShipData.address
+
+          this.disabledTab.create = true
+
+          this.tabsActive = 'tabAnimalOwnership'
+
+          this.disabledWhenOwnership()
+        } else {
+          this.pruneOwnership(false)
+
+          this.disabledTab.create = false
+
+          this.tabsActive = 'tabCreateNew'
+
+          this.disabledWhenOwnership(false)
+        }
+      }
+    },
+
+    disabledWhenOwnership (action = true) {
+      this.disabledInput.province = action
+      this.disabledInput.district = action
+      this.disabledInput.village = action
+      this.disabledInput.address = action
+    },
+
+    tabClick (val) {
+      if (val === 'create') {
+        this.disabledWhenOwnership(false)
+        if (this.checkIsDetail()) {
+          this.pruneOwnership(false)
+        } else {
+          this.pruneOwnership(true)
+        }
+      }
+    },
+
+    pruneOwnership (setNull = true) {
+      if (!setNull) {
+        this.entry.fullname = this.localTempData.entry.fullname
+        this.entry.identity_number = this.localTempData.entry.identity_number
+        this.entry.identity_type = this.localTempData.entry.identity_type
+        this.entry.province_id = this.localTempData.entry.province_id
+        this.entry.district_id = this.localTempData.entry.district_id
+        this.entry.village_id = this.localTempData.entry.village_id
+        this.entry.address = this.localTempData.entry.address
+      } else {
+        this.entry.ownership_id = null
+        this.entry.fullname = null
+        this.entry.identity_number = null
+        this.entry.identity_type = null
+        this.entry.province_id = null
+        this.entry.district_id = null
+        this.entry.village_id = null
+        this.entry.address = null
+      }
+    },
+
+    getOwnership (val) {
+      this.entry.ownership_id = val === 0 ? null : parseInt(val)
+    },
+
+    getIdentityType (val) {
+      this.entry.identity_type = parseInt(val)
+    },
+
     getProvince (val) {
       this.entry.province_id = parseInt(val)
     },
 
     getRegion (val) {
-      console.info('region : ', val)
       this.entry.district_id = parseInt(val)
     },
 
@@ -235,6 +457,9 @@ export default {
       this.fetchDetail(router.id).then((res) => {
         this.mappingDetail()
         this.isLoading = false
+        let data = res.data.data[0]
+        let dataRes = Object.assign({}, data)
+        this.localTempData.entry = dataRes
       }, () => {
         this.$toast.error('Terjadi kesalahan, silahkan muat ulang halaman')
         this.isLoading = false
@@ -244,6 +469,10 @@ export default {
 
     mappingBeforeSubmit () {
       let data = this.entry
+
+      if (data.ownership_id === null) {
+        data.ownership_id = null
+      }
 
       return data
     },
@@ -307,7 +536,7 @@ export default {
       this.pruneState()
 
       if (this.checkIsDetail()) {
-        this.entry.name = this.entry.name
+        this.entry.fullname = this.entry.fullname
         this.entry.email = this.entry.email
       }
     },

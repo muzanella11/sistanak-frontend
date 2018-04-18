@@ -1,11 +1,15 @@
-import * as USER from './types'
+import * as ENVIRONMENT from './types'
 import mutator from '~/utils/mutator'
 
 export default {
-  [USER.SET_STATE]: mutator,
+  [ENVIRONMENT.SET_STATE]: mutator,
 
-  [USER.PRUNE_STATE] (state) {
+  [ENVIRONMENT.PRUNE_STATE] (state) {
     state.entry = {
+      ownership_id: null,
+      fullname: null,
+      identity_number: null,
+      identity_type: null,
       province_id: null,
       district_id: null,
       village_id: null,

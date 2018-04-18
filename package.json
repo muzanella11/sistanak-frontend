@@ -16,7 +16,7 @@
     "@nuxtjs/toast": "^3.0.0",
     "@nuxtjs/workbox": "^2.2.0",
     "nuxt": "^1.0.0",
-    "vuetify": "^1.0.0"
+    "vuetify": "^1.0.14"
   },
   "devDependencies": {
     "axios": "^0.18.0",

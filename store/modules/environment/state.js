@@ -2,6 +2,10 @@
 
 export default {
   entry: {
+    ownership_id: null,
+    fullname: null,
+    identity_number: null,
+    identity_type: null,
     province_id: null,
     district_id: null,
     village_id: null,
@@ -13,5 +17,9 @@ export default {
     land_area: null
   },
   entries: [],
-  entriesDetail: {}
+  entriesDetail: {},
+  temp: {
+    animalOwnership: {},
+    environment: {}
+  }
 }

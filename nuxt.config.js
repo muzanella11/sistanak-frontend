@@ -2,7 +2,7 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  mode: 'pwa',
+  mode: 'spa',
   head: {
     title: 'Sistem Informasi Hewan Ternak',
     meta: [
